@@ -29,6 +29,73 @@ app.use(helmet({
   contentSecurityPolicy: false // Disable CSP for Chrome extension compatibility
 }));
 
+// Root route - Welcome page
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).send(`
+    <html>
+      <head>
+        <title>NegotiateAI API</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+          }
+          h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+          }
+          .endpoint {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+          }
+          .method {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+          }
+          .get { background-color: #61affe; }
+          .post { background-color: #49cc90; }
+        </style>
+      </head>
+      <body>
+        <h1>NegotiateAI API</h1>
+        <p>Welcome to the NegotiateAI API server. This API provides endpoints for the NegotiateAI Chrome extension.</p>
+        
+        <h2>Available Endpoints:</h2>
+        
+        <div class="endpoint">
+          <span class="method get">GET</span>
+          <strong>/api/health</strong> - Check API health status
+        </div>
+        
+        <div class="endpoint">
+          <span class="method post">POST</span>
+          <strong>/api/users/login</strong> - User authentication
+        </div>
+        
+        <div class="endpoint">
+          <span class="method post">POST</span>
+          <strong>/api/suggestions/email</strong> - Get email suggestions
+        </div>
+        
+        <p>For more information, please refer to the API documentation.</p>
+        
+        <p><small>Server running in ${config.nodeEnv} mode | ${new Date().toISOString()}</small></p>
+      </body>
+    </html>
+  `);
+});
+
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/analysis', analysisRoutes);
